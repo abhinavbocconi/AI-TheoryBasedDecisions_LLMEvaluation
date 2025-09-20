@@ -222,9 +222,9 @@ MIT License - See LICENSE file for details
 ```bibtex
 @software{rnr_llm_evaluation,
   title={Human vs. LLM Business Theory Evaluation Pipeline},
-  author={[Your Name]},
+  author={Abhinav Pandey},
   year={2024},
-  url={https://github.com/[your-repo]/RnRLLMEvaluation}
+  url={https://github.com/abhinavbocconi/AI-TheoryBasedDecisions_LLMEvaluation}
 }
 ```
 
