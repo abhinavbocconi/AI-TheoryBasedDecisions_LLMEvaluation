@@ -16,10 +16,10 @@ This research pipeline evaluates **1,962 business theories** from **981 particip
 ## 🏗️ System Architecture
 
 ```
-Input Data (finalData_SS_981.csv)
+Input Data (data/finalData_SS_981.csv)
     ↓
-[ParallelAnalysis_performance.py] → 5 Quality Dimensions Evaluation
-[ParallelAnalysis_sps_conf.py]    → SPS & Confidence Assessment
+[LLMEvaluation/ParallelAnalysis_performance.py] → 5 Quality Dimensions Evaluation
+[LLMEvaluation/ParallelAnalysis_sps_conf.py]    → SPS & Confidence Assessment
     ↓
 Output CSVs with aggregated results (10 runs per model)
     ↓
@@ -68,15 +68,17 @@ echo "OPENAI_API_KEY=your-openai-api-key-here" >> .env
 
 #### Quality Dimensions Evaluation (5 metrics)
 ```bash
+cd LLMEvaluation/
 python3 ParallelAnalysis_performance.py
 ```
-**Output**: `business_evaluation_PARALLEL_YYYYMMDD_HHMMSS.csv`
+**Output**: `LLMEvaluation/business_evaluation_PARALLEL_YYYYMMDD_HHMMSS.csv`
 
 #### SPS & Confidence Evaluation
 ```bash
+cd LLMEvaluation/
 python3 ParallelAnalysis_sps_conf.py
 ```
-**Output**: `sps_confidence_evaluation_PARALLEL_YYYYMMDD_HHMMSS.csv`
+**Output**: `LLMEvaluation/sps_confidence_evaluation_PARALLEL_YYYYMMDD_HHMMSS.csv`
 
 ### 4. Statistical Analysis
 ```bash
@@ -125,38 +127,40 @@ df_filtered = df_filtered.head(30)  # Test with 30 theories
 RnRLLMEvaluation/
 ├── README.md                                    # This file
 ├── requirements.txt                             # Python dependencies
-├── .env.example                                # Environment variables template
 │
-├── finalData_SS_981.csv                       # Input: 1,962 business theories
-├── system_prompt_performance.txt              # LLM prompt for quality evaluation
-├── system_prompt_sps_confidence.txt           # LLM prompt for SPS/confidence
+├── data/                                        # Input data
+│   └── finalData_SS_981.csv                    # 1,962 business theories
 │
-├── ParallelAnalysis_performance.py             # Main: Quality dimensions evaluation
-├── ParallelAnalysis_sps_conf.py               # Main: SPS & confidence evaluation
+├── LLMEvaluation/                               # LLM evaluation pipeline
+│   ├── ParallelAnalysis_performance.py          # Quality dimensions evaluation
+│   ├── ParallelAnalysis_sps_conf.py            # SPS & confidence evaluation
+│   ├── system_prompt_performance.txt           # LLM prompt for quality evaluation
+│   └── system_prompt_sps_confidence.txt        # LLM prompt for SPS/confidence
 │
-├── business_evaluation_PARALLEL_*.csv         # Output: Quality evaluation results
-├── sps_confidence_evaluation_PARALLEL_*.csv   # Output: SPS/confidence results
+├── EvaluationResults/                           # Output CSVs
+│   ├── business_evaluation_PARALLEL_*.csv      # Quality evaluation results
+│   └── sps_confidence_evaluation_PARALLEL_*.csv # SPS/confidence results
 │
-├── CohenK/                                     # Statistical analysis folder
-│   ├── README.md                               # Cohen's kappa analysis documentation
-│   ├── business_evaluation_full.csv            # Combined dataset for analysis
-│   ├── cohen_kappa_quality_integer_final.py    # Conservative integer matching
-│   ├── cohen_kappa_quality_tercile_final.py    # Tercile categorization method
-│   └── cohen_kappa_sps_cit_final.py           # SPS/CIT reliability analysis
+├── CohenK/                                      # Statistical analysis
+│   ├── README.md                                # Cohen's kappa documentation
+│   ├── business_evaluation_full.csv             # Combined dataset for analysis
+│   ├── cohen_kappa_quality_integer_final.py     # Conservative integer matching
+│   ├── cohen_kappa_quality_tercile_final.py     # Tercile categorization method
+│   └── cohen_kappa_sps_cit_final.py            # SPS/CIT reliability analysis
 │
-└── ChatAnalysis/                               # Chat behavior analysis pipeline
-    ├── README.md                               # Detailed pipeline documentation
-    ├── cleanup.py                              # Step 1: Clean raw thread data
-    ├── json_extract.py                         # Step 2: Extract messages from JSON
-    ├── user_message_extract.py                 # Step 3: Extract user messages
-    ├── merge_messages_fulldata.py              # Step 4-5: Merge with participant data
-    ├── classify_messages.py                    # Step 6: LLM message classification
-    ├── combine_classifications.py              # Step 7: 20-vote majority classification
-    ├── analyze_chat_behavior.py                # Step 8: Query pattern analysis
-    ├── subsample_condition_analysis.py         # Step 9: PhD/Experience × Condition
-    ├── single_query_analysis.py                # Step 10: Autopilot user analysis
-    ├── generate_figures.py                     # Step 11: Publication figures
-    └── FullData/                               # Participant data merging
+└── ChatAnalysis/                                # Chat behavior analysis pipeline
+    ├── README.md                                # Detailed pipeline documentation
+    ├── cleanup.py                               # Step 1: Clean raw thread data
+    ├── json_extract.py                          # Step 2: Extract messages from JSON
+    ├── user_message_extract.py                  # Step 3: Extract user messages
+    ├── merge_messages_fulldata.py               # Step 4-5: Merge with participant data
+    ├── classify_messages.py                     # Step 6: LLM message classification
+    ├── combine_classifications.py               # Step 7: 20-vote majority classification
+    ├── analyze_chat_behavior.py                 # Step 8: Query pattern analysis
+    ├── subsample_condition_analysis.py          # Step 9: PhD/Experience × Condition
+    ├── single_query_analysis.py                 # Step 10: Autopilot user analysis
+    ├── generate_figures.py                      # Step 11: Publication figures
+    └── FullData/                                # Participant data merging
         └── full_data_merge_threadID.py
 ```
 

@@ -344,10 +344,10 @@ async def main():
     
     # Read business theory data
     try:
-        df = pd.read_csv('finalData_SS_981.csv')
+        df = pd.read_csv('../data/finalData_SS_981.csv')
         print(f"✅ Theory data loaded: {len(df)} total theories")
     except FileNotFoundError:
-        print("❌ Error: finalData_SS_981.csv not found!")
+        print("❌ Error: ../data/finalData_SS_981.csv not found!")
         return
     
     # Filter out rows with empty theory text
