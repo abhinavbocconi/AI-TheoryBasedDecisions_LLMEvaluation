@@ -15,7 +15,6 @@ Comparisons:
 - Human Expert vs LLM Average
 - Claude vs GPT
 
-GitHub: https://github.com/[your-repo]/CohenK
 """
 
 import pandas as pd

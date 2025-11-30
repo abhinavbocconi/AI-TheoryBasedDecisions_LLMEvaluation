@@ -1,0 +1,23 @@
+# Data files (contain participant information)
+*.xlsx
+FullData/*.xlsx
+
+# Keep figures
+!*.png
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
