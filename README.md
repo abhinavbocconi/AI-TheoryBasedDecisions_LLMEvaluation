@@ -137,12 +137,27 @@ RnRLLMEvaluation/
 ├── business_evaluation_PARALLEL_*.csv         # Output: Quality evaluation results
 ├── sps_confidence_evaluation_PARALLEL_*.csv   # Output: SPS/confidence results
 │
-└── CohenK/                                     # Statistical analysis folder
-    ├── README.md                               # Cohen's kappa analysis documentation
-    ├── business_evaluation_full.csv            # Combined dataset for analysis
-    ├── cohen_kappa_quality_integer_final.py    # Conservative integer matching
-    ├── cohen_kappa_quality_tercile_final.py    # Tercile categorization method
-    └── cohen_kappa_sps_cit_final.py           # SPS/CIT reliability analysis
+├── CohenK/                                     # Statistical analysis folder
+│   ├── README.md                               # Cohen's kappa analysis documentation
+│   ├── business_evaluation_full.csv            # Combined dataset for analysis
+│   ├── cohen_kappa_quality_integer_final.py    # Conservative integer matching
+│   ├── cohen_kappa_quality_tercile_final.py    # Tercile categorization method
+│   └── cohen_kappa_sps_cit_final.py           # SPS/CIT reliability analysis
+│
+└── ChatAnalysis/                               # Chat behavior analysis pipeline
+    ├── README.md                               # Detailed pipeline documentation
+    ├── cleanup.py                              # Step 1: Clean raw thread data
+    ├── json_extract.py                         # Step 2: Extract messages from JSON
+    ├── user_message_extract.py                 # Step 3: Extract user messages
+    ├── merge_messages_fulldata.py              # Step 4-5: Merge with participant data
+    ├── classify_messages.py                    # Step 6: LLM message classification
+    ├── combine_classifications.py              # Step 7: 20-vote majority classification
+    ├── analyze_chat_behavior.py                # Step 8: Query pattern analysis
+    ├── subsample_condition_analysis.py         # Step 9: PhD/Experience × Condition
+    ├── single_query_analysis.py                # Step 10: Autopilot user analysis
+    ├── generate_figures.py                     # Step 11: Publication figures
+    └── FullData/                               # Participant data merging
+        └── full_data_merge_threadID.py
 ```
 
 ## ⚡ Performance
@@ -188,6 +203,47 @@ cross_model_avg_sps_llm,cross_model_avg_cit_llm
 - **SPS Agreement**: Fair agreement (κ ≈ 0.25) between humans and LLMs
 - **Quality Dimensions**: 30% show fair agreement using tercile categorization
 - **Inter-LLM Reliability**: Substantial agreement on Environmental and Novelty assessments
+
+## 💬 Chat Analysis Pipeline
+
+The `ChatAnalysis/` folder contains a complete pipeline for analyzing user chat behavior from the AI-assisted decision-making experiment.
+
+### Overview
+- **1,273 messages** from **603 participants** across **609 threads**
+- Mean queries per user: **2.1** (range: 1–10)
+- **39% single-query users** (autopilot behavior)
+
+### Key Features
+- **11-Step Pipeline**: From raw OpenAI thread exports to publication-ready figures
+- **Dual LLM Classification**: GPT-5.1 + Claude Sonnet 4.5 with 20-vote majority
+- **7 Intent Categories**: Task Delegation, Refinement Request, Evaluation Seeking, Information Seeking, Clarification, Acknowledgment, Other
+
+### Key Findings
+
+#### Autopilot → Copilot Transition
+| Round | Autopilot (Task Del.) | Copilot (Eval + Refine) |
+|-------|----------------------|------------------------|
+| 1st Query | 32% | 27% |
+| 2nd Query | 23% | 33% |
+| 3rd+ Query | 19% | 37% |
+
+#### User-System-Problem Fit
+| Subsample | Metric | General AI | Agentic AI | Diff |
+|-----------|--------|------------|------------|------|
+| **PhD** | Autopilot Rate | 22% | 34% | +12pp |
+| **Experienced** | Copilot Rate | 26% | 36% | +9pp |
+
+### Running the Pipeline
+```bash
+cd ChatAnalysis/
+# See ChatAnalysis/README.md for detailed step-by-step instructions
+python cleanup.py              # Step 1
+python json_extract.py         # Step 2
+python user_message_extract.py # Step 3
+# ... continue through Step 11
+```
+
+📖 **See [ChatAnalysis/README.md](ChatAnalysis/README.md) for complete documentation.**
 
 ## 🚨 Important Notes
 
